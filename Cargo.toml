@@ -1,0 +1,12 @@
+[package]
+name = "advent-2020"
+version = "0.1.0"
+authors = ["Nick Pearson"]
+edition = "2018"
+
+[dependencies]
+sorted-list = "0.2.0"
+
+[[bin]]
+name = "1"
+path = "src/1/main.rs"
