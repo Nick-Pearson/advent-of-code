@@ -5,7 +5,8 @@ authors = ["Nick Pearson"]
 edition = "2018"
 
 [dependencies]
-sorted-list = "0.2.0"
+regex = "1"
+lazy_static = "1.4.0"
 
 [[bin]]
 name = "1"
@@ -18,3 +19,7 @@ path = "src/2/main.rs"
 [[bin]]
 name = "3"
 path = "src/3/main.rs"
+
+[[bin]]
+name = "4"
+path = "src/4/main.rs"
