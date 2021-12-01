@@ -3,7 +3,6 @@ use std::io::{self, BufRead};
 use std::path::Path;
 use std::collections::VecDeque;
 use std::collections::HashSet;
-use std::iter::FromIterator;
 
 fn main() 
 {
