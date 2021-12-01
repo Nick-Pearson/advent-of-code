@@ -4,6 +4,7 @@
 name = "advent-2020"
 version = "0.1.0"
 dependencies = [
+ "joinery",
  "lazy_static",
  "num_cpus",
  "regex",
@@ -27,6 +28,12 @@ checksum = "5aca5565f760fb5b220e499d72710ed156fdb74e631659e99377d9ebfbd13ae8"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "joinery"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85a5c968b1e8336a945da21fab473045df2d5f8c81535e762d52f6b2c49477b9"
 
 [[package]]
 name = "lazy_static"

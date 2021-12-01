@@ -9,6 +9,7 @@ regex = "1"
 lazy_static = "1.4.0"
 threadpool = "1.8.1"
 num_cpus = "1.13.0"
+joinery = "2.0.0"
 
 [[bin]]
 name = "1"
@@ -89,3 +90,7 @@ path = "src/19/main.rs"
 [[bin]]
 name = "20"
 path = "src/20/main.rs"
+
+[[bin]]
+name = "21"
+path = "src/21/main.rs"
