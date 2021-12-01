@@ -11,8 +11,10 @@ fn main() {
                 list.push(my_int);
             }
         }
-        let result = find_pair_that_sums_to(&mut list, 2020);
-        println!("{} * {} = {}", result.0, result.1, result.0*result.1);
+        let pair = find_pair_that_sums_to(&mut list, 2020);
+        println!("{} * {} = {}", pair.0, pair.1, pair.0*pair.1);
+        let triple = find_triple_that_sums_to(&mut list, 2020);
+        println!("{} * {} * {} = {}", triple.0, triple.1, triple.2, triple.0*triple.1*triple.2);
     }
 }
 
@@ -51,13 +53,38 @@ pub fn find_pair_that_sums_to(numbers: &mut Vec<u32>, target: u32) -> (u32, u32)
     return (0, 0);
 }
 
+pub fn find_triple_that_sums_to(numbers: &mut Vec<u32>, target: u32) -> (u32, u32, u32)
+{
+    numbers.sort();
+
+    let mut i = 0;
+    while i < numbers.len()
+    {
+        let current = numbers[i];
+        if current > target
+        {
+            break;
+        }
+
+        let pair = find_pair_that_sums_to(numbers, target - current);
+        if pair.0 != 0
+        {
+            return (current, pair.0, pair.1);
+        }
+        i = i +1
+    }
+
+    return (0, 0, 0);
+}
+
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn test_two_items_in_list() 
+    fn pair_two_items_in_list() 
     {
         let mut vec = Vec::new();
         vec.push(2019);
@@ -66,7 +93,7 @@ mod tests {
     }
 
     #[test]
-    fn multiple_items_in_list_returns_match() 
+    fn pair_multiple_items_in_list_returns_match() 
     {
         let mut vec = Vec::new();
         vec.push(1520);
@@ -74,5 +101,29 @@ mod tests {
         vec.push(17);
         vec.push(1020);
         assert_eq!((1000, 1020), find_pair_that_sums_to(&mut vec, 2020));
+    }
+
+    #[test]
+    fn triple_three_items_in_list() 
+    {
+        let mut vec = Vec::new();
+        vec.push(2000);
+        vec.push(15);
+        vec.push(5);
+        assert_eq!((5, 15, 2000), find_triple_that_sums_to(&mut vec, 2020));
+    }
+
+    #[test]
+    fn triple_multiple_items_in_list_returns_match() 
+    {
+        let mut vec = Vec::new();
+        vec.push(1520);
+        vec.push(1000);
+        vec.push(17);
+        vec.push(1020);
+        vec.push(500);
+        vec.push(400);
+        vec.push(600);
+        assert_eq!((400, 600, 1020), find_triple_that_sums_to(&mut vec, 2020));
     }
 }
