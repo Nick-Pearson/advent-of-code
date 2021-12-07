@@ -10,6 +10,7 @@ lazy_static = "1.4.0"
 threadpool = "1.8.1"
 num_cpus = "1.13.0"
 joinery = "2.0.0"
+num-integer = "0.1.39"
 
 [[bin]]
 name = "1"
@@ -34,3 +35,7 @@ path = "src/5/main.rs"
 [[bin]]
 name = "6"
 path = "src/6/main.rs"
+
+[[bin]]
+name = "7"
+path = "src/7/main.rs"
