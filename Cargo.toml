@@ -1,0 +1,17 @@
+[package]
+name = "advent-2021"
+version = "0.1.0"
+authors = ["Nick Pearson"]
+edition = "2018"
+
+[dependencies]
+regex = "1"
+lazy_static = "1.4.0"
+threadpool = "1.8.1"
+num_cpus = "1.13.0"
+joinery = "2.0.0"
+num-integer = "0.1.39"
+
+[[bin]]
+name = "1"
+path = "src/1/main.rs"
