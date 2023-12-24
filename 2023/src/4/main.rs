@@ -2,7 +2,7 @@ use std::process::id;
 
 use nom::{
     bytes::complete::tag,
-    character::complete::{digit1, multispace1, multispace0},
+    character::complete::{digit1, multispace0, multispace1},
     combinator::{map, recognize},
     multi::many1,
     sequence::{delimited, preceded, terminated, tuple},
@@ -18,25 +18,18 @@ struct Game {
     card: Vec<i32>,
 }
 
-
 fn main() {
     let input = include_str!("input.txt");
     let games: Vec<Game> = input.lines().map(|l| parse_game(l).unwrap().1).collect();
 
-    let part_one:i32 = games.iter()
-        .map(|g| calculate_score(g))
-        .sum();
+    let part_one: i32 = games.iter().map(|g| calculate_score(g)).sum();
     println!("Part one: {}", part_one);
-    let part_two:i32 = play_game(&games).iter()
-        .map(|g| g.1)
-        .sum();
+    let part_two: i32 = play_game(&games).iter().map(|g| g.1).sum();
     println!("Part two: {}", part_two);
 }
 
 fn play_game(games: &Vec<Game>) -> Vec<(Game, i32)> {
-    let mut game_instances:Vec<(Game, i32)> = games.iter().cloned()
-        .map(|g| (g, 1))
-        .collect();
+    let mut game_instances: Vec<(Game, i32)> = games.iter().cloned().map(|g| (g, 1)).collect();
 
     for i in 0..game_instances.len() {
         let gi = &game_instances[i];
@@ -52,7 +45,8 @@ fn play_game(games: &Vec<Game>) -> Vec<(Game, i32)> {
 }
 
 fn num_matches(game: &Game) -> usize {
-    game.card.iter()
+    game.card
+        .iter()
         .filter(|c| game.winners.contains(c))
         .count()
 }
@@ -61,7 +55,7 @@ fn calculate_score(game: &Game) -> i32 {
     match num_matches(game) {
         0 => 0,
         1 => 1,
-        x => 2 << x - 2
+        x => 2 << x - 2,
     }
 }
 
@@ -85,12 +79,8 @@ fn parse_game(i: &str) -> IResult<&str, Game> {
             multispace0,
         )),
     )(games)?;
-    
-    Ok((i, Game {
-        id,
-        winners,
-        card,
-    }))
+
+    Ok((i, Game { id, winners, card }))
 }
 
 #[cfg(test)]
@@ -107,9 +97,7 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
         let games: Vec<Game> = input.lines().map(|l| parse_game(l).unwrap().1).collect();
 
-        let part_one:i32 = games.iter()
-            .map(|g| calculate_score(g))
-            .sum();
+        let part_one: i32 = games.iter().map(|g| calculate_score(g)).sum();
         assert_eq!(13, part_one)
     }
     #[test]
@@ -122,9 +110,7 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
         let games: Vec<Game> = input.lines().map(|l| parse_game(l).unwrap().1).collect();
 
-        let part_two:i32 = play_game(&games).iter()
-            .map(|g| g.1)
-            .sum();
+        let part_two: i32 = play_game(&games).iter().map(|g| g.1).sum();
         assert_eq!(30, part_two)
     }
 }
