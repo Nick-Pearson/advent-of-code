@@ -6,7 +6,7 @@ edition = "2018"
 
 [dependencies]
 itertools = "0.12.0"
-nom = "7"
+nom = {version = "7", features = ["alloc"] }
 
 [[bin]]
 name = "1"
@@ -19,3 +19,7 @@ path = "src/2/main.rs"
 [[bin]]
 name = "3"
 path = "src/3/main.rs"
+
+[[bin]]
+name = "4"
+path = "src/4/main.rs"

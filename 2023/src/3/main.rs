@@ -50,7 +50,7 @@ fn dbg(items: &Vec<ItemCoord>) {
             Item::PartNumber(num) => print!("{}", num),
         }
         x = i.end_x + 1;
-    };
+    }
     println!("");
 }
 
