@@ -79,7 +79,7 @@ impl Mappings {
                 submappings.push(m.mapped_start + start_diff..m.mapped_end - end_diff)
             }
         }
-    
+
         if last < range.end {
             submappings.push(last..range.end);
         }
@@ -88,9 +88,7 @@ impl Mappings {
     }
 
     pub fn map_ranges(&self, ranges: Vec<Range<u64>>) -> Vec<Range<u64>> {
-        ranges.into_iter()
-            .flat_map(|r| self.map_range(r))
-            .collect()
+        ranges.into_iter().flat_map(|r| self.map_range(r)).collect()
     }
 }
 
@@ -140,16 +138,13 @@ impl Almanac {
             &self.water_to_light,
             &self.light_to_temp,
             &self.temp_to_humidity,
-            &self.humidity_to_location
+            &self.humidity_to_location,
         ];
         for m in mappings {
             ranges = m.map_ranges(ranges);
         }
 
-        ranges.iter()
-            .map(|r| r.start)
-            .min()
-            .unwrap()
+        ranges.iter().map(|r| r.start).min().unwrap()
     }
 }
 
@@ -216,10 +211,13 @@ fn parse_almanac(l: &str) -> IResult<&str, Almanac> {
 }
 
 fn parse_ranges(l: &str) -> IResult<&str, Mappings> {
-    map(many1(terminated(parse_range, opt(line_ending))), |mut mappings| {
-        mappings.sort_by_key(|i| i.range_start);
-        Mappings { mappings }
-    })(l)
+    map(
+        many1(terminated(parse_range, opt(line_ending))),
+        |mut mappings| {
+            mappings.sort_by_key(|i| i.range_start);
+            Mappings { mappings }
+        },
+    )(l)
 }
 
 fn parse_range(l: &str) -> IResult<&str, Mapping> {
@@ -229,11 +227,7 @@ fn parse_range(l: &str) -> IResult<&str, Mapping> {
             terminated(parse_int, multispace1),
             terminated(parse_int, multispace0),
         )),
-        |p| Mapping::new(
-             p.1,
-            p.0,
-            p.2,
-        ),
+        |p| Mapping::new(p.1, p.0, p.2),
     )(l)
 }
 #[cfg(test)]
