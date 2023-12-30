@@ -50,9 +50,7 @@ fn main() {
 }
 
 fn convert_jokers_in_hands(hands: &[Hand]) -> Vec<Hand> {
-    hands.iter()
-        .map(convert_jokers)
-        .collect()
+    hands.iter().map(convert_jokers).collect()
 }
 
 fn convert_jokers(hand: &Hand) -> Hand {
@@ -137,18 +135,14 @@ fn joker_permutation(freqs: &[(u8, usize)]) -> Option<Vec<(u8, usize)>> {
     let maybe_jokers = freqs.iter().find(|f| f.0 == 0);
     match maybe_jokers {
         Some(jokers) => {
-            let mut copy:Vec<(u8, usize)> = freqs.iter()
-                .filter(|p| p.0 != 0)
-                .cloned()
-                .collect();
-            if copy.len() == 0
-            {
+            let mut copy: Vec<(u8, usize)> = freqs.iter().filter(|p| p.0 != 0).cloned().collect();
+            if copy.len() == 0 {
                 return None;
             }
 
             copy[0].1 = copy[0].1 + jokers.1;
             Some(copy)
-        },
+        }
         None => None,
     }
 }
@@ -175,7 +169,7 @@ fn classify_from_freqs(freqs: &Vec<(u8, usize)>) -> HandKind {
         }
         4 => HandKind::FourOfAKind(freqs[0].0),
         5 => HandKind::FiveOfAKind(freqs[0].0),
-        _ => panic!("failed to identify hand type from: {:?}", freqs)
+        _ => panic!("failed to identify hand type from: {:?}", freqs),
     }
 }
 
