@@ -1,7 +1,13 @@
-use std::{rc::Rc, collections::{HashMap, hash_map::Entry::{Occupied, Vacant}}};
+use std::{
+    collections::{
+        hash_map::Entry::{Occupied, Vacant},
+        HashMap,
+    },
+    rc::Rc,
+};
 
 use nom::{
-    character::complete::{one_of, multispace0},
+    character::complete::{multispace0, one_of},
     combinator::map,
     multi::many1,
     sequence::terminated,
@@ -49,7 +55,12 @@ impl PipeKind {
             PipeKind::BendSw => vec![Direction::South, Direction::West],
             PipeKind::BendSe => vec![Direction::South, Direction::East],
             PipeKind::Ground => vec![],
-            PipeKind::Start => vec![Direction::North, Direction::South, Direction::East, Direction::West],
+            PipeKind::Start => vec![
+                Direction::North,
+                Direction::South,
+                Direction::East,
+                Direction::West,
+            ],
         }
     }
 }
@@ -96,8 +107,8 @@ impl Map {
 
     pub fn start_coords(&self) -> Coords {
         Coords {
-            x: self.start_idx % self.width, 
-            y: self.start_idx / self.width
+            x: self.start_idx % self.width,
+            y: self.start_idx / self.width,
         }
     }
 
@@ -145,7 +156,9 @@ impl Path {
         }
 
         let new_tile = self.map.pipe_at(&new_coords);
-        new_tile.directions().contains(&Direction::inverse(&direction))
+        new_tile
+            .directions()
+            .contains(&Direction::inverse(&direction))
     }
 
     pub fn enclosed_tiles(&self) -> usize {
@@ -153,7 +166,7 @@ impl Path {
         let mut enclosed = 0;
         for y in top_left.y..=bottom_right.y {
             for x in top_left.x..=bottom_right.x {
-                let c = Coords{x, y};
+                let c = Coords { x, y };
                 if self.is_enclosed(&c, &(top_left, bottom_right)) {
                     enclosed = enclosed + 1;
                 }
@@ -169,14 +182,10 @@ impl Path {
 
         let mut to_x = Vec::new();
         for x in bounding_box.0.x..coords.x {
-            let test = Coords {
-                x,
-                y: coords.y,
-            };
+            let test = Coords { x, y: coords.y };
             if self.explored.contains(&test) {
                 to_x.push(self.map.pipe_at(&test));
-            }
-            else {
+            } else {
                 to_x.push(PipeKind::Ground)
             }
         }
@@ -187,37 +196,38 @@ impl Path {
         for p in to_x {
             match p {
                 PipeKind::Vertical => {
-                    crosses = crosses + 1;   
-                },
-                PipeKind::Horizontal => {},
+                    crosses = crosses + 1;
+                }
+                PipeKind::Horizontal => {}
                 // todo: automate working out that Start is a NEBend tile
                 PipeKind::Start | PipeKind::BendNe | PipeKind::BendNw => {
                     if blocked_south {
                         crosses = crosses + 1;
                         blocked_south = false
-                    }
-                    else {
+                    } else {
                         blocked_north = !blocked_north;
                     }
-                },
+                }
                 PipeKind::BendSw | PipeKind::BendSe => {
                     if blocked_north {
                         crosses = crosses + 1;
                         blocked_north = false
-                    }
-                    else {
+                    } else {
                         blocked_south = !blocked_south;
                     }
-                },
-                PipeKind::Ground => {},
+                }
+                PipeKind::Ground => {}
             }
         }
         crosses % 2 == 1
     }
 
     fn bounding_box(&self) -> (Coords, Coords) {
-        let mut top_left = Coords{ x: usize::MAX, y: usize::MAX };
-        let mut bottom_right = Coords{ x: 0, y: 0 };
+        let mut top_left = Coords {
+            x: usize::MAX,
+            y: usize::MAX,
+        };
+        let mut bottom_right = Coords { x: 0, y: 0 };
 
         for p in &self.explored {
             top_left.x = top_left.x.min(p.x);
@@ -226,7 +236,7 @@ impl Path {
             bottom_right.x = bottom_right.x.max(p.x);
             bottom_right.y = bottom_right.y.max(p.y);
         }
-        
+
         (top_left, bottom_right)
     }
 }
@@ -238,40 +248,32 @@ struct Search {
 impl Search {
     pub fn new(map: Rc<Map>, start: Coords) -> Self {
         let paths = vec![Path::new(map, start)];
-        Self {
-            paths,
-        }
+        Self { paths }
     }
 
     pub fn find_furthest_point(&self) -> (Coords, usize) {
         let mut point_distance = HashMap::new();
         for path in &self.paths {
-            path.explored.iter()
-                .enumerate()
-                .for_each(|(dist, point)| {
-                    match point_distance.entry(*point) {
-                        Occupied(mut e) => {
-                            if *e.get() > dist {
-                                *e.get_mut() = dist;
-                            }
-                        },
-                        Vacant(e) => {
-                            e.insert(dist);
+            path.explored.iter().enumerate().for_each(|(dist, point)| {
+                match point_distance.entry(*point) {
+                    Occupied(mut e) => {
+                        if *e.get() > dist {
+                            *e.get_mut() = dist;
                         }
                     }
-                });
+                    Vacant(e) => {
+                        e.insert(dist);
+                    }
+                }
+            });
         }
-        
-        let result = point_distance.iter()
-            .max_by_key(|p| p.1)
-            .unwrap();
+
+        let result = point_distance.iter().max_by_key(|p| p.1).unwrap();
         (*result.0, *result.1)
     }
 
     pub fn longest_path(&self) -> &Path {
-        self.paths.iter()
-            .max_by_key(|p| p.explored.len())
-            .unwrap()
+        self.paths.iter().max_by_key(|p| p.explored.len()).unwrap()
     }
 
     pub fn explore(&mut self) -> usize {
@@ -279,7 +281,10 @@ impl Search {
         let mut new_paths = Vec::new();
 
         for path in &mut self.paths {
-            let directions:Vec<Direction> = path.current().directions().into_iter()
+            let directions: Vec<Direction> = path
+                .current()
+                .directions()
+                .into_iter()
                 .filter(|d| path.can_explore(&d))
                 .collect();
 
@@ -289,8 +294,7 @@ impl Search {
                 new_paths.push(cloned);
             }
 
-            directions.first()
-                .map(|d| path.explore(d));
+            directions.first().map(|d| path.explore(d));
             explored = explored + directions.len();
         }
         new_paths.into_iter().for_each(|p| self.paths.push(p));
@@ -305,13 +309,16 @@ fn main() {
     let map = Rc::new(map);
 
     let mut search = Search::new(map, start);
-    while search.explore() != 0{
-    }
+    while search.explore() != 0 {}
     let (coords, distance) = search.find_furthest_point();
     println!("Part one: {} ({}, {})", distance, coords.x, coords.y);
     let longest = search.longest_path();
     let part_two = longest.enclosed_tiles();
-    println!("Part two: {} (in path {} long)", part_two, longest.explored.len());
+    println!(
+        "Part two: {} (in path {} long)",
+        part_two,
+        longest.explored.len()
+    );
 }
 
 fn parse_map(input: &str) -> IResult<&str, Map> {
