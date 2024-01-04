@@ -31,7 +31,7 @@ impl Map {
         for g in &mut self.galaxies {
             let populated_xs = xs.iter().filter(|x| **x < g.x).count();
             let num_x_expansions = g.x - populated_xs;
-            
+
             let populated_ys = ys.iter().filter(|y| **y < g.y).count();
             let num_y_expansions = g.y - populated_ys;
 
