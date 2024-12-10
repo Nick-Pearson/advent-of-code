@@ -1,0 +1,13 @@
+[package]
+name = "advent-2024"
+version = "0.1.0"
+authors = ["Nick Pearson"]
+edition = "2018"
+
+[dependencies]
+itertools = "0.12.0"
+nom = {version = "7", features = ["alloc"] }
+
+[[bin]]
+name = "1"
+path = "src/1/main.rs"
