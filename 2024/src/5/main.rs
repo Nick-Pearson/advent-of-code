@@ -1,4 +1,7 @@
-use std::{collections::{HashMap, HashSet}, io::empty};
+use std::{
+    collections::{HashMap, HashSet},
+    io::empty,
+};
 
 use itertools::Itertools;
 
@@ -113,7 +116,7 @@ fn fix_message(rules: &Rules, message: &[i64]) -> Vec<i64> {
         remaining.remove(&next.unwrap());
         fixed.push(next.unwrap());
     }
-    
+
     fixed
 }
 
