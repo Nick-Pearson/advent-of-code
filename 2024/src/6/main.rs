@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 use itertools::Itertools;
 
 fn main() {
@@ -33,7 +35,7 @@ trait Map {
 
 struct ArryBackedMap {
     size: (usize, usize),
-    obstacles: Vec<Coord>,
+    obstacles: HashSet<Coord>,
 }
 
 impl Map for ArryBackedMap {
