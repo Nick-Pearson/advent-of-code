@@ -99,7 +99,7 @@ mod tests {
 
         assert_eq!(result, 3749);
     }
-    
+
     #[test]
     fn test_part_two() {
         let result = part_two(
