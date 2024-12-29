@@ -120,8 +120,7 @@ fn follow_route(map: &dyn Map, start: Coord) -> Vec<Coord> {
 }
 
 fn part_two(map: &dyn Map, start: Coord) -> usize {
-    let candidate_locations: Vec<Coord> =
-        follow_route(map, start).into_iter().unique().collect();
+    let candidate_locations: Vec<Coord> = follow_route(map, start).into_iter().unique().collect();
     let mut count = 0;
 
     for loc in candidate_locations {
