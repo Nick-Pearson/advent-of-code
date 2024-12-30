@@ -18,7 +18,7 @@ fn part_one(input: &str) -> i64 {
 fn parse_line(line: &str) -> (i64, Vec<i64>) {
     let (answer, inputs) = line.split(": ").collect_tuple().unwrap();
     let answer = answer.parse().unwrap();
-    let inputs = inputs.split(" ").map(|n| n.parse().unwrap()).collect();
+    let inputs = inputs.split(' ').map(|n| n.parse().unwrap()).collect();
     (answer, inputs)
 }
 
@@ -72,15 +72,15 @@ mod tests {
 
     #[test]
     fn test_is_valid() {
-        assert_eq!(true, is_valid(&190, &[10, 19]));
-        assert_eq!(true, is_valid(&3267, &[81, 40, 27]));
-        assert_eq!(false, is_valid(&83, &[17, 5]));
-        assert_eq!(false, is_valid(&156, &[15, 6]));
-        assert_eq!(false, is_valid(&7290, &[6, 8, 6, 15]));
-        assert_eq!(false, is_valid(&161011, &[16, 10, 13]));
-        assert_eq!(false, is_valid(&192, &[17, 8, 14]));
-        assert_eq!(false, is_valid(&21037, &[9, 7, 18, 13]));
-        assert_eq!(true, is_valid(&292, &[11, 6, 16, 20]));
+        assert!(is_valid(&190, &[10, 19]));
+        assert!(is_valid(&3267, &[81, 40, 27]));
+        assert!(!is_valid(&83, &[17, 5]));
+        assert!(!is_valid(&156, &[15, 6]));
+        assert!(!is_valid(&7290, &[6, 8, 6, 15]));
+        assert!(!is_valid(&161011, &[16, 10, 13]));
+        assert!(!is_valid(&192, &[17, 8, 14]));
+        assert!(!is_valid(&21037, &[9, 7, 18, 13]));
+        assert!(is_valid(&292, &[11, 6, 16, 20]));
     }
 
     #[test]

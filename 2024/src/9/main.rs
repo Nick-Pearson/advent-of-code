@@ -161,7 +161,7 @@ fn dbg(nodes: &Vec<Node>) {
             }
         }
     }
-    println!("")
+    println!()
 }
 
 #[cfg(test)]

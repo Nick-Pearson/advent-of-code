@@ -1,6 +1,5 @@
 use std::{
     collections::{HashMap, HashSet},
-    io::empty,
 };
 
 use itertools::Itertools;
@@ -19,9 +18,9 @@ impl Rules {
     }
 
     fn add_mapping(&mut self, prior: i64, val: i64) {
-        let entry = self.rules.entry(prior).or_insert(vec![]);
+        let entry = self.rules.entry(prior).or_default();
         entry.push(val);
-        let entry = self.vals.entry(val).or_insert(vec![]);
+        let entry = self.vals.entry(val).or_default();
         entry.push(prior);
     }
 
@@ -47,7 +46,7 @@ fn parse_rules(input: &str) -> Rules {
     let mut rules = Rules::new();
 
     for line in input.lines() {
-        let (left, right) = line.split("|").collect_tuple().unwrap();
+        let (left, right) = line.split('|').collect_tuple().unwrap();
         rules.add_mapping(left.parse().unwrap(), right.parse().unwrap());
     }
 
@@ -57,7 +56,7 @@ fn parse_rules(input: &str) -> Rules {
 fn parse_messages(input: &str) -> Vec<Vec<i64>> {
     input
         .lines()
-        .map(|line| line.split(",").map(|n| n.parse().unwrap()).collect())
+        .map(|line| line.split(',').map(|n| n.parse().unwrap()).collect())
         .collect()
 }
 

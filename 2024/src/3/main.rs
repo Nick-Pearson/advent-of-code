@@ -46,16 +46,14 @@ fn parse(input: &str) -> Vec<Op> {
             let a = parts
                 .next()
                 .unwrap()
-                .split("mul(")
-                .skip(1)
-                .next()
+                .split("mul(").nth(1)
                 .unwrap()
                 .parse()
                 .unwrap();
             let b = parts
                 .next()
                 .unwrap()
-                .split(")")
+                .split(')')
                 .next()
                 .unwrap()
                 .parse()
