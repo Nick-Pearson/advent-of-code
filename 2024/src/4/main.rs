@@ -1,4 +1,3 @@
-
 fn main() {
     let input = include_str!("input.txt");
     let part_one = occurrances(input);
