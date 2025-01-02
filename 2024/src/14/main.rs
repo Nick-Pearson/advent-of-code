@@ -1,4 +1,4 @@
-use std::{collections::HashSet, thread::sleep, time::Duration};
+use std::{collections::HashSet};
 
 use itertools::Itertools;
 
@@ -38,12 +38,10 @@ fn generate_quadrants(
                 } else {
                     (0, 1, 0, 0)
                 }
+            } else if y > half.1 {
+                (0, 0, 1, 0)
             } else {
-                if y > half.1 {
-                    (0, 0, 1, 0)
-                } else {
-                    (0, 0, 0, 1)
-                }
+                (0, 0, 0, 1)
             }
         })
         .fold((0, 0, 0, 0), |acc, (x, y, z, w)| {

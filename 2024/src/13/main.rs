@@ -25,7 +25,7 @@ struct ClawMachine {
 fn part_one(input: &str) -> usize {
     input
         .split("\n\n")
-        .map(|line| parse_claw_machine(line))
+        .map(parse_claw_machine)
         .filter_map(|machine| cheapest_way_to_win(&machine))
         .sum()
 }
@@ -33,7 +33,7 @@ fn part_one(input: &str) -> usize {
 fn part_two(input: &str) -> usize {
     input
         .split("\n\n")
-        .map(|line| parse_claw_machine(line))
+        .map(parse_claw_machine)
         .map(|machines| ClawMachine {
             button_a: machines.button_a,
             button_b: machines.button_b,
@@ -83,13 +83,13 @@ fn parse_claw_machine(input: &str) -> ClawMachine {
 }
 
 fn parse_button(input: &str) -> Button {
-    let x = input.split(',').nth(0).unwrap()[11..].parse().unwrap();
+    let x = input.split(',').next().unwrap()[11..].parse().unwrap();
     let y = input.split(',').nth(1).unwrap()[2..].parse().unwrap();
     Button { x, y }
 }
 
 fn parse_prize(input: &str) -> Prize {
-    let x = input.split(',').nth(0).unwrap()[9..].parse().unwrap();
+    let x = input.split(',').next().unwrap()[9..].parse().unwrap();
     let y = input.split(',').nth(1).unwrap()[3..].parse().unwrap();
     Prize { x, y }
 }
