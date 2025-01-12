@@ -113,7 +113,6 @@ fn get_nodes_from(
     let mut visited = HashSet::new();
     let mut to_visit = vec![(*location, min_distance(&nodes[location]) + 1)];
     while let Some((current, prev_dist)) = to_visit.pop() {
-        
         if visited.contains(&current) {
             continue;
         }
@@ -161,10 +160,12 @@ fn dijstra(map: &Map) -> Option<HashMap<(i16, i16), PathNode>> {
             }
 
             let current = *closest_unvisited.unwrap();
-            for dir in [Direction::North,
+            for dir in [
+                Direction::North,
                 Direction::South,
                 Direction::East,
-                Direction::West] {
+                Direction::West,
+            ] {
                 let next = match dir {
                     Direction::North => (current.0, current.1 - 1),
                     Direction::South => (current.0, current.1 + 1),
@@ -188,22 +189,26 @@ fn dijstra(map: &Map) -> Option<HashMap<(i16, i16), PathNode>> {
 fn calculate_lowest_cost(node: &PathNode, dir: Direction) -> usize {
     match dir {
         Direction::North => node
-            .distance_north.saturating_add(1)
+            .distance_north
+            .saturating_add(1)
             .min(node.distance_east.saturating_add(1001))
             .min(node.distance_west.saturating_add(1001))
             .min(node.distance_south.saturating_add(2001)),
         Direction::South => node
-            .distance_north.saturating_add(2001)
+            .distance_north
+            .saturating_add(2001)
             .min(node.distance_east.saturating_add(1001))
             .min(node.distance_west.saturating_add(1001))
             .min(node.distance_south.saturating_add(1)),
         Direction::East => node
-            .distance_north.saturating_add(1001)
+            .distance_north
+            .saturating_add(1001)
             .min(node.distance_east.saturating_add(1))
             .min(node.distance_west.saturating_add(2001))
             .min(node.distance_south.saturating_add(1001)),
         Direction::West => node
-            .distance_north.saturating_add(1001)
+            .distance_north
+            .saturating_add(1001)
             .min(node.distance_east.saturating_add(2001))
             .min(node.distance_west.saturating_add(1))
             .min(node.distance_south.saturating_add(1001)),
